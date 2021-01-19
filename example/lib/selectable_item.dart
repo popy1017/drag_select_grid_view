@@ -26,11 +26,13 @@ class SelectableItem extends StatefulWidget {
     @required this.index,
     @required this.color,
     @required this.selected,
+    this.onTap,
   }) : super(key: key);
 
   final int index;
   final MaterialColor color;
   final bool selected;
+  final VoidCallback onTap;
 
   @override
   _SelectableItemState createState() => _SelectableItemState();
@@ -79,28 +81,31 @@ class _SelectableItemState extends State<SelectableItem>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _scaleAnimation,
-      builder: (context, child) {
-        return Container(
-          child: Transform.scale(
-            scale: _scaleAnimation.value,
-            child: DecoratedBox(
-              child: child,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                color: calculateColor(),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          return Container(
+            child: Transform.scale(
+              scale: _scaleAnimation.value,
+              child: DecoratedBox(
+                child: child,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: calculateColor(),
+                ),
               ),
             ),
+          );
+        },
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Item\n#${widget.index}',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18, color: Colors.white),
           ),
-        );
-      },
-      child: Container(
-        alignment: Alignment.center,
-        child: Text(
-          'Item\n#${widget.index}',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );

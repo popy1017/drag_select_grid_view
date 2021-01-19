@@ -55,10 +55,20 @@ class _MyAppState extends State<MyApp> {
             index: index,
             color: Colors.blue,
             selected: selected,
+            onTap: () {
+              List<int> currentValue =
+                  controller.value.selectedIndexes.toList();
+              if (currentValue.contains(index)) {
+                currentValue.remove(index);
+              } else {
+                currentValue.add(index);
+              }
+              controller.value = Selection(currentValue.toSet());
+            },
           );
         },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150,
+          maxCrossAxisExtent: 200,
           crossAxisSpacing: 8,
           mainAxisSpacing: 8,
         ),
